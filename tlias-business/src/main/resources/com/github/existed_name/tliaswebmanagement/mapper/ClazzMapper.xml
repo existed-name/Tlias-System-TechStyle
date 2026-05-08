@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.existed_name.tliaswebmanagement.mapper.ClazzMapper">
+
+<!--    条件查询-->
+    <select id="selectByQuery"
+            resultType="com.github.existed_name.tlias_pojo.Clazz">
+
+        SELECT
+            c.id, c.name, c.room, c.begin_date, c.end_date, c.master_id, c.subject, c.create_time, c.update_time,
+            e.name AS masterName,
+            ( CASE
+                WHEN now() &lt; c.begin_date THEN '未开课'
+                WHEN now() > c.end_date THEN '已结课'
+                ELSE '在读中'
+                END ) AS status
+        FROM clazz AS c
+        LEFT JOIN emp AS e ON c.master_id = e.id
+
+        <where>
+            <if test="name != null and name != ''">
+<!--                备注: mysql 不区分大小写 -->
+                c.name like concat('%', #{name}, '%')
+            </if>
+
+            <if test="begin != null">
+                AND c.begin_date >= #{begin}
+            </if>
+
+            <if test="end != null">
+                AND c.end_date &lt;= #{end}
+            </if>
+        </where>
+
+<!--        CONVERT(name USING gbk) 按拼音首字母排序-->
+        ORDER BY c.begin_date DESC, c.end_date DESC, CONVERT( c.name USING gbk ) ASC, c.id ASC
+
+    </select>
+
+<!--    根据id查询班级 -->
+    <select id="selectById" resultType="com.github.existed_name.tlias_pojo.Clazz">
+
+        SELECT
+            c.id, c.name, c.room, c.begin_date, c.end_date, c.master_id, c.subject, c.create_time, c.update_time,
+            e.name AS masterName,
+            ( CASE
+                WHEN now() &lt; c.begin_date THEN '未开课'
+                WHEN now() > c.end_date THEN '已结课'
+                ELSE '在读中'
+                END ) AS status
+        FROM clazz AS c
+        LEFT JOIN emp AS e ON c.master_id = e.id
+        WHERE c.id = #{id}
+
+    </select>
+
+<!--    更新班级信息-->
+    <update id="updateById">
+
+        UPDATE clazz
+
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="room != null and room != ''">room = #{room},</if>
+            <if test="beginDate != null">begin_date = #{beginDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="masterId != null">master_id = #{masterId},</if>
+            <if test="subject != null">subject = #{subject},</if>
+            update_time = #{updateTime},
+        </set>
+
+        WHERE id = #{id}
+
+    </update>
+
+<!--    查询所有班级-->
+    <select id="selectAll" resultType="com.github.existed_name.tlias_pojo.Clazz">
+
+        SELECT
+            c.id, c.name, c.room, c.begin_date, c.end_date, c.master_id, c.subject, c.create_time, c.update_time,
+            e.name AS masterName,
+            ( CASE
+                WHEN now() &lt; c.begin_date THEN '未开课'
+                WHEN now() > c.end_date THEN '已结课'
+                ELSE '在读中'
+                END ) AS status
+        FROM clazz AS c
+        LEFT JOIN emp AS e ON c.master_id = e.id
+        ORDER BY c.begin_date DESC, c.end_date DESC, CONVERT( c.name USING gbk ) ASC, c.id ASC
+
+    </select>
+</mapper>

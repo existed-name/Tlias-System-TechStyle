@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.existed_name.tliaswebmanagement.mapper.OperateLogMapper">
+
+<!--    操作日志条件查询( PageHelper 分页 )-->
+    <select id="selectByQuery" resultType="com.github.existed_name.tlias_pojo.OperateLog">
+
+        SELECT o.id, o.operate_emp_id, o.operate_time, o.class_name, o.method_name, o.method_params, o.return_value, o.cost_time, e.name AS operateEmpName
+        FROM operate_log AS o
+        LEFT JOIN emp AS e
+        ON o.operate_emp_id = e.id
+
+        <where>
+            <if test="operateEmpId != null">
+                e.id = #{operateEmpId}
+            </if>
+            <if test="beginDate != null">
+                AND o.operate_time >= #{beginDate}
+            </if>
+            <if test="endDate != null">
+                AND o.operate_time &lt;= #{endDate}
+            </if>
+        </where>
+
+        ORDER BY o.id DESC
+
+    </select>
+
+<!--    累计各种操作类型的数量-->
+    <select id="countTotalOperateTypes" resultType="com.github.existed_name.tlias_pojo.vo.OperateLogSummaryVO$TypeCountVO">
+
+        SELECT
+        ( CASE
+            WHEN method_name LIKE 'save%' OR method_name LIKE 'add%' THEN '添加'
+            WHEN method_name LIKE 'delete%' OR method_name LIKE 'remove' THEN '删除'
+            WHEN method_name LIKE 'update%' THEN '编辑'
+            WHEN method_name LIKE 'upload%' THEN '上传文件'
+            ELSE method_name
+            END ) AS type, count( 0 ) AS count
+        FROM operate_log
+        GROUP BY type
+        ORDER BY count ASC, type ASC
+
+    </select>
+
+<!--    累计各种操作类型的平均耗时-->
+    <select id="selectAvgCostTimes" resultType="com.github.existed_name.tlias_pojo.vo.OperateLogSummaryVO$AvgCostVO">
+
+        SELECT
+        ( CASE
+            WHEN method_name LIKE 'save%' OR method_name LIKE 'add%' THEN '添加'
+            WHEN method_name LIKE 'delete%' OR method_name LIKE 'remove' THEN '删除'
+            WHEN method_name LIKE 'update%' THEN '编辑'
+            WHEN method_name LIKE 'upload%' THEN '上传文件'
+            ELSE method_name
+            END ) AS type, avg( cost_time ) AS avgTime
+        FROM operate_log
+        GROUP BY method_name
+        ORDER BY avgTime DESC, type ASC
+
+    </select>
+
+</mapper>

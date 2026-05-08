@@ -1,0 +1,77 @@
+# ===================================================================
+# Application Configuration
+# Created by: <a href="https://github.com/existed-name"> existed-name </a> on 2026/1/29
+# ===================================================================
+
+server:
+  port: 8081
+
+
+spring:
+  application:
+    name: tlias-management
+
+  servlet:
+    multipart:
+      # 单个文件的最大限制
+      # 如果用户上传的一个头像、一个视频超过了 10MB，服务器直接报错拒绝
+      max-file-size: 10MB
+      # 单次请求的总数据大小限制
+      # 一个表单里可能包含多个文件（比如：头像 + 背景图 + 多个附件）
+      # 这个配置限制了这一整个数据包的总大小不能超过 100MB
+      max-request-size: 100MB
+
+  # 彩色日志
+  output:
+    ansi:
+      enabled: always
+
+  # 数据源配置 (按需取消注释)
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 本地编译器测试/Linux裸机部署
+    url: jdbc:mysql://127.0.0.1:3306/tlias?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    # Docker容器内部网络
+    # url: jdbc:mysql://tlias-mysql:3306/tlias?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    # 把tlias-mysql改为mysql, 尽量用服务名更规范
+#    url: jdbc:mysql://mysql:3306/tlias?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root # dev
+    password: 123456
+
+
+# mysql连接配置
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启驼峰映射（让Java对象属性的小驼峰命名、数据库字段的下划线命名可以互相转换）
+    map-underscore-to-camel-case: true
+
+
+# PageHelper配置
+pagehelper:
+  # 启用分页参数合理化
+  # 如果设置为 true，当你请求的分页页码 < 1 时，它会自动查询第一页；
+  # 当你请求的页码 > 总页数时，它会自动查询最后一页。
+  # 这样可以防止因参数错误导致查询结果为空（返回空列表），提升用户体验。
+  reasonable: true
+  # 指定数据库方言
+  helper-dialect: mysql
+
+
+# spring事务管理日志
+logging:
+  level:
+    org.springframework.jdbc.support.JdbcTransactionManager: debug
+#    root: INFO
+#    com.yourpackage: DEBUG
+
+
+# 阿里云OSS
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: javaweb-learning-20260306
+    region: cn-beijing
+
+
+

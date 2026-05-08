@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.existed_name.tliaswebmanagement.mapper.EmpMapper">
+
+    <select id="selectByQuery" parameterType="com.github.existed_name.tlias_pojo.dto.EmpQueryParam"
+            resultType="com.github.existed_name.tlias_pojo.Emp">
+
+        SELECT
+        e.*,
+        d.name AS deptName
+        FROM emp AS e
+        LEFT JOIN dept AS d ON e.dept_id = d.id
+        <where>
+            <if test="name != null and name != ''">
+                AND e.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+
+            <if test="gender != null">
+                AND e.gender = #{gender}
+            </if>
+
+            <if test="begin != null">
+                AND e.entry_date &gt;= #{begin}
+            </if>
+
+            <if test="end != null">
+                AND e.entry_date &lt;= #{end}
+            </if>
+        </where>
+
+<!--        CONVERT( c.name USING gbk ) 按照拼音首字母排序 -->
+        ORDER BY CONVERT( deptName USING gbk ) ASC , CONVERT( e.name USING gbk ) ASC, e.id ASC
+
+    </select>
+
+    <delete id="deleteBatch">
+
+        DELETE FROM emp
+        WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+
+    </delete>
+
+    <!--根据ID更新员工信息-->
+    <update id="updateById">
+
+        update emp
+        <set>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="job != null">job = #{job},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="image != null and image != ''">image = #{image},</if>
+            <if test="entryDate != null">entry_date = #{entryDate},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+
+    </update>
+
+    <select id="countEmpJobData" resultType="com.github.existed_name.tlias_pojo.vo.JobCountVO">
+
+        SELECT
+            ( CASE
+                when job = 1 then '班主任'
+                when job = 2 then '讲师'
+                when job = 3 then '学工主管'
+                when job = 4 then '教研主管'
+                when job = 5 then '咨询师'
+                when job IS NULL then '未分配职位'
+                else '其他' end ) AS job,
+            count( 0 ) AS count
+        FROM emp
+        GROUP BY job
+        ORDER BY count ASC, job ASC
+
+    </select>
+
+    <select id="countEmpGenderData" resultType="com.github.existed_name.tlias_pojo.vo.OptionVO">
+
+        SELECT
+            ( CASE gender when 1 then '男'
+            when 2 then '女'
+            else '其他' end ) AS name,
+            count( 0 ) AS value
+        FROM emp
+        GROUP BY gender
+        ORDER BY value ASC, gender ASC
+
+    </select>
+
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.existed_name.tliaswebmanagement.mapper.StudentMapper">
+
+<!--    条件查询-->
+    <select id="selectByQuery"
+            resultType="com.github.existed_name.tlias_pojo.Student">
+
+        SELECT
+            s.id, s.name, s.no, s.gender, s.phone, s.id_card, s.is_college, s.address, s.degree, s.graduation_date, s.clazz_id, s.violation_count, s.violation_score, s.create_time, s.update_time,
+            c.name AS clazz_name
+        FROM student AS s
+        LEFT JOIN clazz AS c
+        ON s.clazz_id = c.id
+
+        <where>
+            <if test="name != null and name != ''">s.name like concat('%', #{name}, '%')</if>
+            <if test="degree != null">AND s.degree = #{degree}</if>
+            <if test="clazzId != null">AND s.clazz_id = #{clazzId}</if>
+        </where>
+
+        ORDER BY CONVERT( c.name USING gbk ) ASC, CONVERT( s.name USING gbk ) ASC, s.id ASC
+
+    </select>
+
+<!--    更新学生信息-->
+    <update id="update">
+        UPDATE student
+
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="no != null and no != ''">no = #{no},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="idCard != null and idCard != ''">id_card = #{idCard},</if>
+            <if test="isCollege != null">is_college = #{isCollege},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="degree != null">degree = #{degree},</if>
+            <if test="graduationDate != null">graduation_date = #{graduationDate},</if>
+            <if test="clazzId != null">clazz_id = #{clazzId},</if>
+            <if test="violationCount != null">violation_count = #{violationCount},</if>
+            <if test="violationScore != null">violation_score = #{violationScore},</if>
+            update_time = #{updateTime},
+        </set>
+
+        WHERE id = #{id}
+
+    </update>
+
+<!--    根据id批量删除-->
+    <delete id="deleteByIds">
+
+        DELETE FROM student
+        WHERE id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+    </delete>
+
+<!--    统计各个班级的学生人数-->
+    <select id="countStudentCountData" resultType="com.github.existed_name.tlias_pojo.vo.ClazzStudentCountVO">
+
+        SELECT c.name AS clazzName, count( s.id ) AS studentCount
+        FROM clazz AS c
+        LEFT JOIN student AS s
+        ON s.clazz_id = c.id
+        GROUP BY c.name
+        ORDER BY studentCount DESC, clazzName ASC
+
+    </select>
+
+<!--    统计所有学员的学历信息-->
+    <select id="countStudentDegreeData" resultType="com.github.existed_name.tlias_pojo.vo.OptionVO">
+
+        SELECT
+            ( CASE degree WHEN 1 THEN '初中'
+                WHEN 2 THEN '高中'
+                WHEN 3 THEN '大专'
+                WHEN 4 THEN '本科'
+                WHEN 5 THEN '硕士'
+                ELSE '其他' END ) AS name, count( id ) AS value
+        FROM student
+        GROUP BY degree
+        ORDER BY degree ASC
+
+    </select>
+
+</mapper>

@@ -1,0 +1,344 @@
+/* ============================================================
+   Global Tech-Blue Dark Theme
+   作用域：全局输入框、下拉选择器、对话框、消息通知
+
+   ⚠️ 不包含表格样式 —— 各页面 clazz.vue 自行决定表格风格
+   ⚠️ 已移除所有 backdrop-filter / blur 毛玻璃效果
+   ============================================================ */
+
+/* ============================================================
+   【CSS 变量层】覆盖 Element Plus 默认变量
+   这是染色的第一道防线，所有使用这些变量的组件自动继承。
+   ------------------------------------------------------------ */
+:root {
+  /* --- 基础色值 --- */
+  --tech-bg-main:        rgba(7, 30, 61, 0.97);
+  --tech-bg-glass:       rgb(10, 25, 47);          /* 已去除透明度，无毛玻璃 */
+  --tech-cyan:           #00e5ff;
+  --tech-border:         rgba(0, 229, 255, 0.4);
+  --tech-text-primary:   #cfe8ff;
+  --tech-text-dim:       rgba(207, 232, 255, 0.6);
+
+  /* --- 扩展色值 --- */
+  --tech-dialog-bg:      rgb(6, 18, 38);
+  --tech-header-bg:      rgba(0, 229, 255, 0.12);
+  --tech-success:        #67c23a;
+  --tech-warning:        #e6a23c;
+  --tech-danger:         #f56c6c;
+
+  /* --- 光效（已去除 inner-glow，只保留外发光） --- */
+  --tech-shadow:         0 0 12px rgba(0, 229, 255, 0.25);
+
+  /* ----------------------------------------------------------------
+     覆盖 Element Plus 内置 CSS 变量
+     说明：el-select / el-cascader 的白色背景来源于 --el-fill-color-blank，
+           必须在这里覆盖，否则精确选择器也可能打不穿。
+     ---------------------------------------------------------------- */
+  --el-fill-color-blank:       rgb(10, 25, 47);
+  --el-bg-color-overlay:       rgb(7, 30, 61);
+  --el-text-color-regular:     #cfe8ff;
+  --el-text-color-placeholder: rgba(207, 232, 255, 0.4);
+  --el-border-color:           rgba(0, 229, 255, 0.4);
+  --el-border-color-hover:     #00e5ff;
+  --el-color-primary:          #00e5ff;
+  --el-color-warning:          #e6a23c;
+  --el-color-danger:           #f56c6c;
+}
+
+
+/* ============================================================
+   【输入框基础样式】input / el-input
+   ============================================================ */
+input[type="date"],
+input[type="text"],
+.el-input__wrapper,
+.ant-picker {
+  background-color: var(--tech-bg-glass) !important;
+  border: 1px solid var(--tech-border) !important;
+  box-shadow: var(--tech-shadow) !important;
+  /* ❌ 已移除 backdrop-filter: blur() */
+  color: var(--tech-text-primary) !important;
+}
+
+.el-input__inner {
+  color: var(--tech-text-primary) !important;
+  font-family: 'Consolas', monospace;
+  background: transparent !important;   /* 防止内层 inner 再叠白底 */
+}
+
+.el-input__wrapper:hover,
+.el-input__wrapper.is-focus {
+  border-color: var(--tech-cyan) !important;
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.5) !important;
+}
+
+
+/* ============================================================
+   【Select 选择器外壳】el-select / el-cascader（班级/学历/课程等）
+   精确选择器保底，防止 Element Plus 内部样式优先级更高覆盖变量层。
+   ============================================================ */
+.el-select .el-input__wrapper,
+.el-cascader .el-input__wrapper,
+.el-tree-select .el-input__wrapper,
+.el-autocomplete .el-input__wrapper {
+  background-color: var(--tech-bg-glass) !important;
+  border: 1px solid var(--tech-border) !important;
+  box-shadow: var(--tech-shadow) !important;
+  /* ❌ 已移除 backdrop-filter */
+}
+
+.el-select .el-input__wrapper:hover,
+.el-select .el-input__wrapper.is-focus,
+.el-cascader .el-input__wrapper:hover,
+.el-cascader .el-input__wrapper.is-focus {
+  border-color: var(--tech-cyan) !important;
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.5) !important;
+}
+
+/* Select 选中项文字 & 箭头图标 */
+.el-select .el-input__inner,
+.el-select .el-select__selected-item,
+.el-select__placeholder,
+.el-cascader .el-input__inner {
+  color: var(--tech-text-primary) !important;
+  font-family: 'Consolas', monospace;
+}
+
+.el-select .el-icon,
+.el-cascader .el-icon {
+  color: var(--tech-cyan) !important;
+}
+
+
+/* ============================================================
+   【下拉弹出层】el-popper / 下拉列表 / Cascader 面板
+   ============================================================ */
+.el-popper.is-light,
+.el-select-dropdown,
+.el-select-dropdown__list {
+  background: var(--tech-bg-main) !important;
+  border: 1px solid var(--tech-border) !important;
+  /* ❌ 已移除 backdrop-filter */
+}
+
+.el-select-dropdown__item {
+  color: var(--tech-text-primary) !important;
+  background: transparent !important;
+}
+
+.el-select-dropdown__item:hover,
+.el-select-dropdown__item.is-hovering {
+  background: linear-gradient(90deg, rgba(0, 229, 255, 0.18) 0%, transparent 100%) !important;
+  color: #fff !important;
+  padding-left: 20px !important;
+  transition: padding-left 0.15s ease;
+}
+
+.el-select-dropdown__item.is-selected {
+  color: var(--tech-cyan) !important;
+  font-weight: bold;
+}
+
+/* Cascader 面板 */
+.el-cascader-panel,
+.el-cascader-menu {
+  background: var(--tech-bg-main) !important;
+  border-color: var(--tech-border) !important;
+  color: var(--tech-text-primary) !important;
+}
+
+.el-cascader-node:hover,
+.el-cascader-node.in-active-path {
+  background: rgba(0, 229, 255, 0.12) !important;
+  color: var(--tech-cyan) !important;
+}
+
+
+/* ============================================================
+   【MessageBox 删除确认弹窗】深色科技风
+   对应代码：ElMessageBox.confirm(...)  type: 'warning'
+   ============================================================ */
+
+/* 遮罩层 */
+.el-overlay {
+  background: rgba(0, 5, 20, 0.75) !important;
+}
+
+/* 弹窗主体 */
+.el-message-box {
+  background: var(--tech-dialog-bg) !important;
+  border: 1px solid var(--tech-border) !important;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.9),
+  0 0 20px rgba(0, 229, 255, 0.15) !important;
+  /* ❌ 已移除 backdrop-filter */
+}
+
+/* 标题栏 */
+.el-message-box__header {
+  background: var(--tech-header-bg) !important;
+  border-bottom: 1px solid rgba(0, 229, 255, 0.2) !important;
+  padding: 14px 20px !important;
+}
+
+.el-message-box__title {
+  color: #fff !important;
+  text-shadow: 0 0 8px var(--tech-cyan);
+  font-family: 'Consolas', monospace;
+}
+
+/* 关闭按钮 × */
+.el-message-box__headerbtn .el-message-box__close {
+  color: var(--tech-text-dim) !important;
+}
+.el-message-box__headerbtn:hover .el-message-box__close {
+  color: var(--tech-cyan) !important;
+}
+
+/* 内容区 */
+.el-message-box__content {
+  color: var(--tech-text-primary) !important;
+  background: transparent !important;
+}
+
+/* warning 图标颜色 */
+.el-message-box__status.el-icon {
+  color: var(--tech-warning) !important;
+  filter: drop-shadow(0 0 6px var(--tech-warning));
+}
+
+/* 正文文字 */
+.el-message-box__message p {
+  color: var(--tech-text-primary) !important;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* 按钮区 */
+.el-message-box__btns {
+  border-top: 1px solid rgba(0, 229, 255, 0.15) !important;
+  padding: 12px 20px !important;
+  background: transparent !important;
+}
+
+/* 取消按钮 */
+.el-message-box__btns .el-button--default,
+.el-message-box__btns .el-button.el-message-box__action:not(.el-button--primary) {
+  background: transparent !important;
+  border: 1px solid var(--tech-border) !important;
+  color: var(--tech-text-primary) !important;
+}
+.el-message-box__btns .el-button--default:hover {
+  border-color: var(--tech-cyan) !important;
+  color: var(--tech-cyan) !important;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.3) !important;
+}
+
+/* 确认删除按钮（危险红色） */
+.el-message-box__btns .el-button--primary {
+  background: rgba(245, 108, 108, 0.15) !important;
+  border: 1px solid var(--tech-danger) !important;
+  color: var(--tech-danger) !important;
+  box-shadow: 0 0 10px rgba(245, 108, 108, 0.3) !important;
+}
+.el-message-box__btns .el-button--primary:hover {
+  background: rgba(245, 108, 108, 0.3) !important;
+  box-shadow: 0 0 18px rgba(245, 108, 108, 0.5) !important;
+}
+
+
+/* ============================================================
+   【普通 Dialog 对话框】
+   ============================================================ */
+.el-dialog {
+  background: var(--tech-dialog-bg) !important;
+  border: 1px solid var(--tech-border) !important;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.85),
+  0 0 15px rgba(0, 229, 255, 0.1) !important;
+  /* ❌ 已移除 backdrop-filter */
+}
+
+.el-dialog__header {
+  background: var(--tech-header-bg);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.el-dialog__title {
+  color: #fff !important;
+  text-shadow: 0 0 10px var(--tech-cyan);
+}
+
+
+/* ============================================================
+   【消息提示 Message】右上角 ElMessage.success / error 等
+   ============================================================ */
+.el-message {
+  background: var(--tech-bg-main) !important;
+  border: 1px solid var(--tech-cyan) !important;
+  /* ❌ 已移除 backdrop-filter */
+  color: var(--tech-text-primary) !important;
+}
+
+.el-message .el-message__content {
+  color: var(--tech-text-primary) !important;
+}
+
+
+/* ============================================================
+   【滚动条 / 日期面板】
+   ============================================================ */
+.el-scrollbar__thumb {
+  background-color: rgba(0, 229, 255, 0.3) !important;
+}
+
+.el-date-picker {
+  background: var(--tech-bg-main) !important;
+  border: 1px solid var(--tech-border) !important;
+}
+
+
+/* ============================================================
+   【⚠️ 注意事项 / 排查指南】
+
+   1. 表格样式已完全从本文件移除。
+      请在各页面 clazz.vue 的 <style> 里自行定义，
+      或用 :deep(.el-table) { ... } 做局部覆盖。
+
+   2. clazz.vue 里若有 <style scoped> 覆盖了 el-input__wrapper，
+      会比本文件优先级更高，导致样式不生效。
+      解决：改用 :deep(.el-input__wrapper) { ... }
+      或把该块改为 <style>（去掉 scoped）。
+
+   3. main.css 必须在 Element Plus 之后引入：
+        // main.js / main.ts
+        import 'element-plus/dist/index.css'   // ← 先
+        import './assets/main.css'             // ← 后
+
+   4. MessageBox 按钮颜色对应关系：
+        confirmButtonText: '确认删除'  →  红色危险按钮 (.el-button--primary)
+        cancelButtonText: '取消'       →  透明边框按钮 (.el-button--default)
+      想改颜色直接修改 --tech-danger 变量即可全局生效。
+   ============================================================ */
+
+
+
+
+
+
+
+
+
+/* 全局重置（推荐放在所有样式最前面） */
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-color: #0f172a;
+  overflow-x: hidden;
+}
+
+/* Element Plus 容器友好 */
+.el-container {
+  box-sizing: border-box;
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- ==================== 继承父模块 ==================== -->
+    <!--
+        继承 tlias-management 父 POM，版本号均由父 POM 的 dependencyManagement 提供，
+        此处引用依赖时无需填写 <version>。
+    -->
+    <parent>
+        <groupId>com.github.existed_name</groupId>
+        <artifactId>tlias-management</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <!-- ==================== 本模块坐标 ==================== -->
+    <!--
+        groupId 从父模块继承，无需重复声明。
+        tlias-util：存放项目公共工具类，如 JWT 工具、阿里云 OSS 工具等。
+        其他业务模块通过依赖此模块来复用这些工具。
+    -->
+    <artifactId>tlias-util</artifactId>
+
+    <!-- ==================== 本模块专属依赖 ==================== -->
+    <dependencies>
+
+        <!-- ── JWT 令牌工具 ── -->
+        <!--
+            jjwt：用于生成和解析 JWT 令牌（登录认证）。
+            版本由父 POM dependencyManagement 统一管理（0.9.1）。
+            Source: https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+        -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+
+        <!-- ── 阿里云 OSS SDK ── -->
+        <!--
+            aliyun-sdk-oss：用于文件上传到阿里云对象存储。
+            版本由父 POM dependencyManagement 统一管理（3.18.5）。
+            Source: https://mvnrepository.com/artifact/com.aliyun.oss/aliyun-sdk-oss
+        -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+        </dependency>
+
+        <!-- ── JAXB 相关（Java 11+ 补丁）── -->
+        <!--
+            Java 9 起 JAXB 从 JDK 中移除，aliyun-sdk-oss 在运行时依赖 JAXB，
+            因此需要手动补充以下三个依赖，否则运行时会抛出 ClassNotFoundException。
+        -->
+        <!-- JAXB API 接口层 -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <!-- JAF（JavaBeans Activation Framework），JAXB 的底层依赖 -->
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+        </dependency>
+        <!-- JAXB 运行时实现，注意版本不超过 2.3.3（由父 POM 锁定）-->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>
