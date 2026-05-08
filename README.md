@@ -199,6 +199,10 @@
       * 如果没有，就先自己跟1个对话讨论决定原型大概什么样子、要求
    6. 开工写代码
 
+4. **其他**
+    * 打包后端可在 `tlias-business` 的 `pom.xml` 下面 `<build>` 部分修改 `<finalName>`，指定打出来的 Jar 包名字(或者删掉 `<finalName>` 用默认的也可以)
+    * 打包前端可在 `/vue-tlias-management/vite.config.js` 最下面的 `outDir` 修改打包文件夹名称(或者删掉,默认 `dist`)
+
 </details>
 
 
