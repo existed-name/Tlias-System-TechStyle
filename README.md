@@ -18,6 +18,7 @@
   <a href="#项目介绍">📋 项目介绍</a> •
   <a href="#演示">🎬 演示</a> •
   <a href="#使用说明">🚀 使用说明</a> •
+  <a href="#注意">⚠️ 注意</a>
   <a href="#友情链接">🔗 友情链接</a>
 </p>
 
@@ -127,37 +128,76 @@
 <summary><h1 id="使用说明">🚀 使用说明</h1></summary>
 
 1. **本地跑通步骤**
-   1. **导入源码**
-      * IDEA 新建 `Empty Project`
-      * 在<u>[ Release 界面](https://github.com/existed-name/Tlias-System-TechStyle/releases)</u>下载源码压缩包 `Source code.zip`
-      * 把源码解压到该项目目录
-      * 手动右键项目根目录的 pom.xml → `Add as maven project` → 加载依赖
-   2. **配置数据源**
-      * IDEA 右侧 Database 面板 → 点击 `+` 新建 `Data Source`,填写 `username`(root) 和 `password`(123456)
-      * 来到 `/assets/database/tlias.sql` → 选中全部 → `Ctrl + Enter` 运行
-      * 这样就把数据迁移过来了
-   3. **修改项目配置**
-      * 来到 `tlias-business` 模块的 `src/main/resources/application.yaml`
-      * 在数据源配置(`datasource`)把 `username`, `password` 改成自己的
-      * 最下面的 `aliyun` 部分，把 `bucketName`, `region` 改成自己的对象存储服务的信息，`endpoint` 也要把 `beijing` 改成自己的 `region`
-   4. **启动后端**: 在 `tlias-business` 模块找到启动类并运行
-   5. **后端接口测试**
-      * 电脑浏览器访问 `localhost:8081` 看看有没有 JSON 数据
-      * ApiFox/Postman 等等工具，先访问 `localhost:8081/login`，在 `Body` 请求体里面的 `JSON`，填入登录用户和密码(可见 `LoginController`)
-      
-         ```json
-         {
-            "username": "linchong",
-            "password": "123456"
-         }
-         ```
-        
-      * 登录拿到 token，然后访问 `localhost:8081/depts`(或者其他路径),在 `Headers` 请求头添加参数 `token`,把刚刚复制到的 token 粘贴过来，就有登录状态了
-   6. **启动前端**
-      * 来到项目的 `vue-tlias-management` 文件夹
-      * IDEA 右键该文件夹 → `Open In` → `Terminal` → `npm install` 安装依赖
-      * 进入 `package.json` → `"dev": "vite",` 那里点击旁边的绿色小箭头，启动前端
-      * 从 Terminal 给出的 `localhost:5173`(类似链接)进去到浏览器，就可以看到前端界面了
+    1. **导入源码**
+        * IDEA 新建 `Empty Project`,比如取名 `tlias-management`
+        * 在<u>[ Release 界面](https://github.com/existed-name/Tlias-System-TechStyle/releases)</u>下载源码压缩包 `Source code.zip`
+        * 把源码解压到该项目目录
+        * 手动右键项目根目录的 pom.xml → `Add as maven project` → 加载依赖
+    2. **配置数据源**
+        * IDEA 右侧 Database 面板 → 点击 `+` 新建 `Data Source`,填写 `username`(root) 和 `password`(123456)
+        * 来到 `/assets/database/tlias.sql` → 选中全部 → `Ctrl + Enter` 运行
+        * 这样就把数据迁移过来了
+    3. **修改项目配置**
+        * 来到 `tlias-business` 模块的 `src/main/resources/application.yaml`
+        * 在数据源配置(`datasource`)把 `username`, `password` 改成自己的
+        * 最下面的 `aliyun` 部分，把 `bucketName`, `region` 改成自己的对象存储服务的信息，`endpoint` 也要把 `beijing` 改成自己的 `region`
+    4. **启动后端**: 在 `tlias-business` 模块找到启动类并运行
+    5. **后端接口测试**
+        * 电脑浏览器访问 `localhost:8081` 看看有没有 JSON 数据
+        * ApiFox/Postman 等等工具，先访问 `localhost:8081/login`，在 `Body` 请求体里面的 `JSON`，填入登录用户和密码(可见 `LoginController`)
+
+           ```json
+           {
+              "username": "linchong",
+              "password": "123456"
+           }
+           ```
+
+        * 登录拿到 token，然后访问 `localhost:8081/depts`(或者其他路径),在 `Headers` 请求头添加参数 `token`,把刚刚复制到的 token 粘贴过来，就有登录状态了
+    6. **启动前端**
+        * 来到项目的 `vue-tlias-management` 文件夹
+        * IDEA 右键该文件夹 → `Open In` → `Terminal` → `npm install` 安装依赖
+        * 进入 `package.json` → `"dev": "vite",` 那里点击旁边的绿色小箭头，启动前端
+        * 从 Terminal 给出的 `localhost:5173`(类似链接)进去到浏览器，就可以看到前端界面了
+
+</details>
+
+
+<details>
+<summary><h1 id="注意">⚠️ 注意</h1></summary>
+
+1. **文件说明**
+    * `/assets/database`: 用来迁移数据到本地的 sql 脚本
+    * `/assets/demo`: 演示文件
+    * `/assets/documents`: **接口文档**
+    * `/assets/prototype`: 教程的原型设计
+    * `/tlias-business`: 业务模块, Controller, Service, Mapper, Interceptor, AOP 等等都在这里
+    * `/tlias-pojo`: 实体类对象
+    * `/tlias-util`: 工具类
+    * `vue-tlias-management`: 前端项目
+    * `pom.xml`: parent 父工程的配置
+
+2. **项目bug**
+    * 操作日志界面，柱状图底部操作类型文字显示不全；光标移到饼图上不能显示百分比
+    * 登录日志界面，柱状图底部用户名显示不全(**把浏览器屏幕大小放大/变小**就可以解决显示不全的问题)
+    * 员工/学生管理，批量选中，切换页码后选中状态失效
+    * 数据库储存普通URL，没有签名，只能访问允许公共访问的bucket(私有 bucket 会出现头像空白的情况)
+
+3. **让AI(网页端)生成前端代码的操作**(资料比较多，需要分批发给他)
+   1. 给出技术栈&版本
+      * 直接复制 `package.json` 的 `dependencies`、`devDependencies`就行
+   2. 给出关键前端代码
+      * `src/router/index.js`
+      * `src/utils/request.js`
+   3. 要写的模块的 markdown 接口文档
+   4. 比如班级管理
+      * 需要写进 `/src/views/clazz/clazz.vue`
+      * 需要发给AI `src/api/clazz.js`(如果没有，就先让他根据接口文档生成)
+   5. 精简的原型描述
+      * 页面原型 → 找对应模块的那个HTML文件，开1个新对话发给他，让他总结
+      * `帮我提取这个原型文件的关键代码 + 精简说明，方便我复制发给AI生成前端内容`
+      * 如果没有，就先自己跟1个对话讨论决定原型大概什么样子、要求
+   6. 开工写代码
 
 </details>
 
