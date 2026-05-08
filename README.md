@@ -1,6 +1,8 @@
 <div align="center">
 
 [![License](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Stars](https://img.shields.io/github/stars/existed-name/Tlias-System-TechStyle?style=social)](https://github.com/existed-name/Tlias-System-TechStyle/stargazers)
+[![Repo%20Size](https://img.shields.io/github/repo-size/existed-name/Tlias-System-TechStyle)](https://github.com/existed-name/Tlias-System-TechStyle)
 [![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-3.5-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Vue.js](https://img.shields.io/badge/Vue.js-3.2-4FC08D.svg)](https://vuejs.org/)
 [![JavaWeb](https://img.shields.io/badge/JavaWeb-AI%2B-orange.svg)]()
@@ -114,7 +116,9 @@
 
 * 内部界面一览
 
-   <u>[仓库内视频入口](/assets/demo/Tlias-Demo.mp4)</u>
+    GIF 有点糊，这里是<u>[仓库内视频下载入口](/assets/demo/Tlias-Demo.mp4)</u>
+
+    ![内部界面一览](/assets/demo/Tlias-Demo.gif "内部界面一览")
 
 </details>
 
