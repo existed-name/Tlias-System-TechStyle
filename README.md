@@ -127,38 +127,42 @@
 <details>
 <summary><h1 id="使用说明">🚀 使用说明</h1></summary>
 
-1. **本地跑通步骤**
-    1. **导入源码**
-        * IDEA 新建 `Empty Project`,比如取名 `tlias-management`
-        * 在<u>[ Release 界面](https://github.com/existed-name/Tlias-System-TechStyle/releases)</u>下载源码压缩包 `Source code.zip`
-        * 把源码解压到该项目目录
-        * 手动右键项目根目录的 pom.xml → `Add as maven project` → 加载依赖
-    2. **配置数据源**
-        * IDEA 右侧 Database 面板 → 点击 `+` 新建 `Data Source`,填写 `username`(root) 和 `password`(123456)
-        * 来到 `/assets/database/tlias.sql` → 选中全部 → `Ctrl + Enter` 运行
-        * 这样就把数据迁移过来了
-    3. **修改项目配置**
-        * 来到 `tlias-business` 模块的 `src/main/resources/application.yaml`
-        * 在数据源配置(`datasource`)把 `username`, `password` 改成自己的
-        * 最下面的 `aliyun` 部分，把 `bucketName`, `region` 改成自己的对象存储服务的信息，`endpoint` 也要把 `beijing` 改成自己的 `region`
-    4. **启动后端**: 在 `tlias-business` 模块找到启动类并运行
-    5. **后端接口测试**
-        * 电脑浏览器访问 `localhost:8081` 看看有没有 JSON 数据
-        * ApiFox/Postman 等等工具，先访问 `localhost:8081/login`，在 `Body` 请求体里面的 `JSON`，填入登录用户和密码(可见 `LoginController`)
+## 1. 本地跑通步骤
+1. **导入源码**
+    * IDEA 新建 `Empty Project`,比如取名 `tlias-management`
+    * 在<u>[ Release 界面](https://github.com/existed-name/Tlias-System-TechStyle/releases)</u>下载源码压缩包 `Source code.zip`
+    * 把源码解压到该项目目录
+    * 手动右键项目根目录的 pom.xml → `Add as maven project` → 加载依赖
+2. **配置数据源**
+    * IDEA 右侧 Database 面板 → 点击 `+` 新建 `Data Source`,填写自己的 `username`、`password`
+    * 来到 `/assets/database/tlias.sql` → 选中全部 → `Ctrl + Enter` 运行
+    * 这样就把数据迁移过来了
+3. **修改项目配置**
+    * 来到 `tlias-business` 模块的 `src/main/resources/application.yaml`
+    * 在数据源配置(`datasource`)把 `username`, `password` 改成自己的
+    * 最下面的 `aliyun` 部分，把 `bucketName`, `region` 改成自己的对象存储服务的信息，`endpoint` 也要把 `beijing` 改成自己的 `region`
+4. **启动后端**: 在 `tlias-business` 模块找到启动类并运行
+5. **后端接口测试**
+    * 电脑浏览器访问 `localhost:8081` 看看有没有 JSON 数据
+    * ApiFox/Postman 等等工具，先访问 `localhost:8081/login`，在 `Body` 请求体里面的 `JSON`，填入登录用户和密码(可见 `LoginController`)
 
-           ```json
-           {
-              "username": "linchong",
-              "password": "123456"
-           }
-           ```
+       ```json
+       {
+          "username": "linchong",
+          "password": "123456"
+       }
+       ```
 
-        * 登录拿到 token，然后访问 `localhost:8081/depts`(或者其他路径),在 `Headers` 请求头添加参数 `token`,把刚刚复制到的 token 粘贴过来，就有登录状态了
-    6. **启动前端**
-        * 来到项目的 `vue-tlias-management` 文件夹
-        * IDEA 右键该文件夹 → `Open In` → `Terminal` → `npm install` 安装依赖
-        * 进入 `package.json` → `"dev": "vite",` 那里点击旁边的绿色小箭头，启动前端
-        * 从 Terminal 给出的 `localhost:5173`(类似链接)进去到浏览器，就可以看到前端界面了
+    * 登录拿到 token，然后访问 `localhost:8081/depts`(或者其他路径),在 `Headers` 请求头添加参数 `token`,把刚刚复制到的 token 粘贴过来，就有登录状态了
+6. **启动前端**
+    * 来到项目的 `vue-tlias-management` 文件夹
+    * IDEA 右键该文件夹 → `Open In` → `Terminal` → `npm install` 安装依赖
+    * 进入 `package.json` → `"dev": "vite",` 那里点击旁边的绿色小箭头，启动前端
+    * 从 Terminal 给出的 `localhost:5173`(类似链接)进去到浏览器，就可以看到前端界面了
+
+
+## 2. 跑通软件包步骤
+* 请见 <u>[Release 界面](https://github.com/existed-name/Tlias-System-TechStyle/releases)的使用教程
 
 </details>
 
