@@ -24,6 +24,12 @@
 
 <br/>
 
+* 更新, [某外卖项目](https://github.com/existed-name/sky-takeout-backend)
+  - 放到了服务器上面，欢迎大家参考，大佬轻喷
+  - 管理端前端访问地址： http://39.105.17.19:80
+  - 用户端前端访问地址 ​：http://39.105.17.19:8082
+  - 总结了部分技术点和优化操作、个人学习方法和感悟等等，详见后端仓库 README
+
 <details>
 <summary><h1 id="项目介绍">📋 项目介绍</h1></summary>
 
